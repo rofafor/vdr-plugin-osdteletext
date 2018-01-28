@@ -274,6 +274,8 @@ bool cPluginTeletextosd::SetupParse(const char *Name, const char *Value)
   else if (!strcasecmp(Name, "inactivityTimeout")) /*ttSetup.inactivityTimeout=atoi(Value)*/;
   else if (!strcasecmp(Name, "HideMainMenu")) ttSetup.HideMainMenu=atoi(Value);
   else if (!strcasecmp(Name, "txtFontName")) ttSetup.txtFontName=strdup(Value);
+  else if (!strcasecmp(Name, "txtG0Block")) ttSetup.txtG0Block=atoi(Value);
+  else if (!strcasecmp(Name, "txtG2Block")) ttSetup.txtG2Block=atoi(Value);
   else {
      for (int i=0;i<LastActionKey;i++) {
         if (!strcasecmp(Name, cTeletextSetupPage::actionKeyNames[i].internalName)) {
@@ -316,6 +318,8 @@ void cTeletextSetupPage::Store(void) {
    ttSetup.OSDVAlign=temp.OSDVAlign;
    ttSetup.HideMainMenu=temp.HideMainMenu;
    ttSetup.txtFontName=temp.txtFontNames[temp.txtFontIndex];
+   ttSetup.txtG0Block=temp.txtG0Block;
+   ttSetup.txtG2Block=temp.txtG2Block;
    //ttSetup.inactivityTimeout=temp.inactivityTimeout;
 
    for (int i=0;i<LastActionKey;i++) {
@@ -332,6 +336,8 @@ void cTeletextSetupPage::Store(void) {
    SetupStore("OSDVAlign", ttSetup.OSDVAlign);
    SetupStore("HideMainMenu", ttSetup.HideMainMenu);
    SetupStore("txtFontName", ttSetup.txtFontName);
+   SetupStore("txtG0Block", ttSetup.txtG0Block);
+   SetupStore("txtG2Block", ttSetup.txtG2Block);
    //SetupStore("inactivityTimeout", ttSetup.inactivityTimeout);
 }
 
@@ -339,6 +345,24 @@ void cTeletextSetupPage::Store(void) {
 cTeletextSetupPage::cTeletextSetupPage(void) {
    cString buf;
    cOsdItem *item;
+
+temp.txtBlock[0] =  tr("Latin 1");
+temp.txtBlock[1] =  tr("Latin 2");
+temp.txtBlock[2] =  tr("Latin 3");
+temp.txtBlock[3] =  tr("Latin 4");
+temp.txtBlock[4] =  tr("Cyrillic");
+temp.txtBlock[5] =  tr("Reserved");
+temp.txtBlock[6] =  tr("Greek");
+temp.txtBlock[7] =  tr("Reserved");
+temp.txtBlock[8] =  tr("Arabic");
+temp.txtBlock[9] =  tr("Reserved");
+temp.txtBlock[10] = tr("Hebrew");
+temp.txtBlock[11] = tr("Reserved");
+temp.txtBlock[12] = tr("Reserved");
+temp.txtBlock[13] = tr("Reserved");
+temp.txtBlock[14] = tr("Reserved");
+temp.txtBlock[15] = tr("Reserved");
+
 
    //init tables
    for (int i=0;i<LastActionKey;i++) {
@@ -360,6 +384,8 @@ cTeletextSetupPage::cTeletextSetupPage(void) {
    temp.OSDVAlign=ttSetup.OSDVAlign;
    temp.HideMainMenu=ttSetup.HideMainMenu;
    temp.txtFontName=ttSetup.txtFontName;
+   temp.txtG0Block=ttSetup.txtG0Block;
+   temp.txtG2Block=ttSetup.txtG2Block;
    //temp.inactivityTimeout=ttSetup.inactivityTimeout;
 
    cFont::GetAvailableFontNames(&temp.txtFontNames, true);
@@ -367,7 +393,6 @@ cTeletextSetupPage::cTeletextSetupPage(void) {
    if (temp.txtFontIndex < 0) {
        temp.txtFontIndex = 0;
    }
-
 
    Add(new cMenuEditIntItem(tr("Background transparency"), &tempConfiguredClrBackground, 0, 255)); 
    
@@ -384,6 +409,8 @@ cTeletextSetupPage::cTeletextSetupPage(void) {
    Add(new cMenuEditIntItem(tr("OSD vertical align"), &temp.OSDVAlign, 0, 100));
    Add(new cMenuEditBoolItem(tr("Hide mainmenu entry"), &temp.HideMainMenu));
    Add(new cMenuEditStraItem(tr("Text Font"), &temp.txtFontIndex, temp.txtFontNames.Size(), &temp.txtFontNames[0]));
+   Add(new cMenuEditStraItem(tr("G0 code block"), &temp.txtG0Block, 16, temp.txtBlock));
+   Add(new cMenuEditStraItem(tr("G2 code block"), &temp.txtG2Block, 16, temp.txtBlock));
    
    //Using same string as VDR's setup menu
    //Add(new cMenuEditIntItem(tr("Setup.Miscellaneous$Min. user inactivity (min)"), &temp.inactivityTimeout));
