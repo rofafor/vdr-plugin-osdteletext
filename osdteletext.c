@@ -346,23 +346,26 @@ cTeletextSetupPage::cTeletextSetupPage(void) {
    cString buf;
    cOsdItem *item;
 
-temp.txtBlock[0] =  tr("Latin 1");
-temp.txtBlock[1] =  tr("Latin 2");
-temp.txtBlock[2] =  tr("Latin 3");
-temp.txtBlock[3] =  tr("Latin 4");
-temp.txtBlock[4] =  tr("Cyrillic");
-temp.txtBlock[5] =  tr("Reserved");
-temp.txtBlock[6] =  tr("Greek");
-temp.txtBlock[7] =  tr("Reserved");
-temp.txtBlock[8] =  tr("Arabic");
-temp.txtBlock[9] =  tr("Reserved");
-temp.txtBlock[10] = tr("Hebrew");
-temp.txtBlock[11] = tr("Reserved");
-temp.txtBlock[12] = tr("Reserved");
-temp.txtBlock[13] = tr("Reserved");
-temp.txtBlock[14] = tr("Reserved");
-temp.txtBlock[15] = tr("Reserved");
-
+   //character set
+   static const char *txtBlock[] = {
+      tr("Latin 1"),  //0x00
+      tr("Latin 2"),  //0x01
+      tr("Latin 3"),  //0x02
+      tr("Latin 4"),  //0x03
+      tr("Cyrillic"), //0x04
+      tr("Reserved"), //0x05
+      tr("Greek"),    //0x06
+      tr("Reserved"), //0x07
+      tr("Arabic"),   //0x08
+      tr("Reserved"), //0x09
+      tr("Hebrew"),   //0x0a
+// not need now, while reserved
+//      tr("Reserved"), //0x0b
+//      tr("Reserved"), //0x0c
+//      tr("Reserved"), //0x0d
+//      tr("Reserved"), //0x0e
+//      tr("Reserved")  //0x0f
+   };
 
    //init tables
    for (int i=0;i<LastActionKey;i++) {
@@ -409,8 +412,8 @@ temp.txtBlock[15] = tr("Reserved");
    Add(new cMenuEditIntItem(tr("OSD vertical align"), &temp.OSDVAlign, 0, 100));
    Add(new cMenuEditBoolItem(tr("Hide mainmenu entry"), &temp.HideMainMenu));
    Add(new cMenuEditStraItem(tr("Text Font"), &temp.txtFontIndex, temp.txtFontNames.Size(), &temp.txtFontNames[0]));
-   Add(new cMenuEditStraItem(tr("G0 code block"), &temp.txtG0Block, 16, temp.txtBlock));
-   Add(new cMenuEditStraItem(tr("G2 code block"), &temp.txtG2Block, 16, temp.txtBlock));
+   Add(new cMenuEditStraItem(tr("G0 code block"), &temp.txtG0Block, 11, txtBlock));
+   Add(new cMenuEditStraItem(tr("G2 code block"), &temp.txtG2Block, 11, txtBlock));
    
    //Using same string as VDR's setup menu
    //Add(new cMenuEditIntItem(tr("Setup.Miscellaneous$Min. user inactivity (min)"), &temp.inactivityTimeout));
