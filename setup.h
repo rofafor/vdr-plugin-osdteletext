@@ -49,6 +49,8 @@ public:
    cString txtFontName;
    cStringList txtFontNames;
    int txtFontIndex;
+   int txtG0Block;
+   int txtG2Block;
 };
 
 extern TeletextSetup ttSetup;
