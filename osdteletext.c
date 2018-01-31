@@ -28,6 +28,8 @@ using namespace std;
 #error "VDR-1.7.39 API version or greater is required!"
 #endif
 
+#define NUMELEMENTS(x) (sizeof(x) / sizeof(x[0]))
+
 static const char *VERSION        = "0.9.5";
 static const char *DESCRIPTION    = trNOOP("Displays teletext on the OSD");
 static const char *MAINMENUENTRY  = trNOOP("Teletext");
@@ -359,12 +361,6 @@ cTeletextSetupPage::cTeletextSetupPage(void) {
       tr("Arabic"),   //0x08
       tr("Reserved"), //0x09
       tr("Hebrew"),   //0x0a
-// not need now, while reserved
-//      tr("Reserved"), //0x0b
-//      tr("Reserved"), //0x0c
-//      tr("Reserved"), //0x0d
-//      tr("Reserved"), //0x0e
-//      tr("Reserved")  //0x0f
    };
 
    //init tables
@@ -412,8 +408,8 @@ cTeletextSetupPage::cTeletextSetupPage(void) {
    Add(new cMenuEditIntItem(tr("OSD vertical align"), &temp.OSDVAlign, 0, 100));
    Add(new cMenuEditBoolItem(tr("Hide mainmenu entry"), &temp.HideMainMenu));
    Add(new cMenuEditStraItem(tr("Text Font"), &temp.txtFontIndex, temp.txtFontNames.Size(), &temp.txtFontNames[0]));
-   Add(new cMenuEditStraItem(tr("G0 code block"), &temp.txtG0Block, 11, txtBlock));
-   Add(new cMenuEditStraItem(tr("G2 code block"), &temp.txtG2Block, 11, txtBlock));
+   Add(new cMenuEditStraItem(tr("G0 code block"), &temp.txtG0Block, NUMELEMENTS(txtBlock), txtBlock));
+   Add(new cMenuEditStraItem(tr("G2 code block"), &temp.txtG2Block, NUMELEMENTS(txtBlock), txtBlock));
    
    //Using same string as VDR's setup menu
    //Add(new cMenuEditIntItem(tr("Setup.Miscellaneous$Min. user inactivity (min)"), &temp.inactivityTimeout));
